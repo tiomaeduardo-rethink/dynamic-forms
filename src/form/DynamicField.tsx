@@ -1,11 +1,17 @@
-import {useFormContext} from 'react-hook-form';
-import {DynamicFieldData} from './control-types';
-
 import * as React from 'react';
 import {TextInput} from 'react-native-paper';
+import {useFormContext} from 'react-hook-form';
+import {DynamicFieldData} from './control-types';
 import {ControlledTextInput} from './ControlledTextInput';
 
-export const DynamicField = ({type, ...rest}: DynamicFieldData) => {
+export const DynamicField = ({
+  type,
+  fieldName,
+  label,
+  rules,
+  defaultValue,
+  ...rest
+}: DynamicFieldData) => {
   const {control} = useFormContext();
 
   switch (type) {
@@ -13,9 +19,10 @@ export const DynamicField = ({type, ...rest}: DynamicFieldData) => {
       return (
         <ControlledTextInput
           control={control}
-          name={rest.fieldName}
-          label={rest.label}
-          rules={rest.rules}
+          name={fieldName}
+          label={label}
+          rules={rules}
+          {...rest}
         />
       );
 
@@ -23,10 +30,25 @@ export const DynamicField = ({type, ...rest}: DynamicFieldData) => {
       return (
         <ControlledTextInput
           control={control}
-          name={rest.fieldName}
-          label={rest.label}
-          rules={rest.rules}
+          name={fieldName}
+          label={label}
+          defaultValue={defaultValue}
+          rules={rules}
           keyboardType="number-pad"
+          {...rest}
+        />
+      );
+
+    case 'cpf':
+      return (
+        <ControlledTextInput
+          control={control}
+          name={fieldName}
+          label={label}
+          rules={rules}
+          keyboardType="number-pad"
+          mask="999.999.999-99"
+          {...rest}
         />
       );
     // case 'select': {
@@ -44,14 +66,6 @@ export const DynamicField = ({type, ...rest}: DynamicFieldData) => {
     //     </select>
     //   );
     // }
-    // case 'number':
-    //   return (
-    //     <input
-    //       type="number"
-    //       {...register(fieldName, config)}
-    //       defaultValue={defaultValue}
-    //     />
-    //   );
     default:
       return <TextInput />;
   }

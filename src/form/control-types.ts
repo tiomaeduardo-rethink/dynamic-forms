@@ -14,9 +14,10 @@ export type DynamicFieldData =
       fieldName: string;
       defaultValue?: any;
       rules?: Rules;
+      disabled?: boolean;
     } & (
       | {
-          type: 'text' | 'number' | 'checkbox';
+          type: 'text' | 'number' | 'checkbox' | 'cpf';
         }
       | {
           type: 'select' | 'multi-select';

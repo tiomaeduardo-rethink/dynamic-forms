@@ -10,7 +10,10 @@ interface FormProps {
 }
 
 export const Form = ({schema}: FormProps) => {
-  const formMethods = useForm();
+  const formMethods = useForm({
+    mode: 'onTouched',
+  });
+  formMethods.getValues();
 
   function onSubmit(data, error) {
     // your logic on what to do with data
